@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Digibos Carousel — Alumni Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0E10;
+    --bg-soft: #17171A;
+    --ink: #F5F5F0;
+    --ink-dim: #9A9A97;
+    --accent: #FFD93D;
+    --accent-2: #FF6B35;
+    --card: #1C1C20;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    padding: 24px 16px 80px;
+  }
+
+  .shell {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  .counter {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 13px;
+    color: var(--ink-dim);
+    font-weight: 500;
+  }
+
+  .progress {
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 11.11%;
+    transition: width 0.3s ease;
+    border-radius: 99px;
+  }
+
+  .carousel {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--border);
+    user-select: none;
+    touch-action: pan-y;
+  }
+
+  .track {
+    display: flex;
+    width: 900%;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .slide {
+    width: 11.1111%;
+    height: 100%;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .slide-num {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 12px;
+    color: var(--ink-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 99px;
+    background: rgba(255, 217, 61, 0.12);
+    color: var(--accent);
+    width: fit-content;
+    margin-bottom: 16px;
+  }
+
+  h1.hook {
+    font-size: 34px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  h1.hook em {
+    font-style: normal;
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  h2.title {
+    font-size: 30px;
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .subhead {
+    font-size: 13px;
+    color: var(--ink-dim);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .body-text {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .body-text + .body-text { margin-top: 12px; }
+
+  .body-text strong { font-weight: 700; color: var(--accent); }
+
+  .quote-big {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+
+  .arrow-cue {
+    margin-top: 18px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .arrow-cue::after {
+    content: ' →';
+    display: inline-block;
+    animation: nudge 1.6s ease-in-out infinite;
+  }
+
+  @keyframes nudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
+  /* Slide 3 — Paradox */
+  .paradox-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    margin: 18px 0;
+  }
+
+  .paradox-card {
+    padding: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .paradox-card .label {
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .paradox-card .val {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .vs {
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 700;
+    color: var(--accent-2);
+    font-size: 16px;
+  }
+
+  /* Slide 4 — Profile card */
+  .profile-card {
+    background: linear-gradient(135deg, rgba(255,217,61,0.08), rgba(255,107,53,0.05));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 14px 0;
+  }
+
+  .profile-name {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .profile-role {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--ink-dim);
+    margin-top: 4px;
+  }
+
+  /* Slide 7 — bullet list */
+  .bullet-list {
+    list-style: none;
+    margin-top: 14px;
+  }
+
+  .bullet-list li {
+    position: relative;
+    padding: 10px 0 10px 24px;
+    font-size: 15px;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bullet-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Slide 8 — timeline */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 14px;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .tl-year {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .tl-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Slide 9 — CTA */
+  .cta-slide {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,217,61,0.15), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255,107,53,0.15), transparent 50%),
+      var(--card);
+  }
+
+  .cta-headline {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-list {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+  .cta-list li {
+    font-size: 13.5px;
+    line-height: 1.45;
+    padding: 6px 0 6px 22px;
+    position: relative;
+    color: rgba(245,245,240,0.9);
+  }
+  .cta-list li::before {
+    content: '';
+    position: absolute;
+    left: 4px; top: 14px;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .cta-box {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .cta-box small {
+    display: block;
+    font-weight: 500;
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* Nav controls */
+  .nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 18px;
+    display: grid;
+    place-items: center;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    padding: 0;
+  }
+
+  .dot.active {
+    background: var(--accent);
+    width: 22px;
+    border-radius: 99px;
+  }
+
+  /* CTA panel (below carousel) */
+  .cta-panel {
+    margin-top: 24px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    border-radius: 20px;
+    padding: 28px 24px;
+    color: var(--bg);
+  }
+
+  .cta-panel h3 {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-panel p {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    transition: transform 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+  }
+
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-primary {
+    background: var(--bg);
+    color: var(--accent);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  }
+
+  .btn-secondary {
+    background: rgba(14,14,16,0.12);
+    color: var(--bg);
+    border: 1.5px solid rgba(14,14,16,0.25);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(14,14,16,0.2);
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 420px) {
+    body { padding: 16px 12px 60px; }
+    .slide { padding: 28px 24px; }
+    h1.hook { font-size: 28px; }
+    h2.title { font-size: 24px; }
+    .quote-big { font-size: 34px; }
+    .cta-headline { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span>digibos.id</span>
+    </div>
+    <div class="counter"><span id="current">01</span> / 09</div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- Carousel -->
+  <div class="carousel" id="carousel">
+    <div class="track" id="track">
+
+      <!-- SLIDE 1 — HOOK -->
+      <div class="slide">
+        <div>
+          <span class="tag">Alumni Story</span>
+          <span class="slide-num">01 / 09</span>
+          <h1 class="hook">Ternyata karir kita ga ditentuin sama <em>jurusan sekolah</em>, tapi sama apa yang kita tekunin diem-diem</h1>
+        </div>
+        <div>
+          <p class="subhead">What can we learn from alumni Digibos Creative Studio</p>
+          <p class="arrow-cue">swipe</p>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 — VALIDATION -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">02 / 09</span>
+          <h2 class="quote-big">Masa sih?</h2>
+          <p class="body-text">Banyak data bilang, ijazah itu cuma tiket buat buka pintu pertama doang.</p>
+          <p class="body-text">Yang bikin orang lompat naik level berkali-kali lipat justru <strong>skill yang dia kuasain di luar jurusannya.</strong></p>
+          <p class="body-text">Pas nyocokin ini sama salah satu alumni Digibos, ternyata plek ketiplek.</p>
+        </div>
+        <p class="arrow-cue">This is what i found</p>
+      </div>
+
+      <!-- SLIDE 3 — PARADOX -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">03 / 09</span>
+          <p class="subhead" style="margin-bottom:10px;">I've been researching this person for days</p>
+          <h2 class="title">Lulusan SMK jurusan <em style="font-style:normal; color:var(--accent);">Teknik Gambar Bangunan</em>.</h2>
+          <p class="body-text">Harusnya sekarang jadi drafter atau kerja di proyek konstruksi.</p>
+
+          <div class="paradox-grid">
+            <div class="paradox-card">
+              <div class="label">Sekolah</div>
+              <div class="val">SMK<br/>Teknik Bangunan</div>
+            </div>
+            <div class="vs">VS</div>
+            <div class="paradox-card">
+              <div class="label">Sekarang</div>
+              <div class="val">Head of<br/>Marketing F&B</div>
+            </div>
+          </div>
+
+          <p class="body-text">Yang lebih nyentrik — dia naik ke posisi itu bukan karena ijazah, tapi karena <strong>hobi iseng pas masih pake seragam abu-abu.</strong></p>
+        </div>
+        <p class="arrow-cue">keep swiping</p>
+      </div>
+
+      <!-- SLIDE 4 — PROFILE -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">04 / 09</span>
+          <span class="tag">The Profile</span>
+          <h2 class="title">Kenalan sama <em style="font-style:normal; color:var(--accent);">[Nama Narasumber]</em></h2>
+
+          <div class="profile-card">
+            <div class="profile-name">[Nama Narasumber]</div>
+            <div class="profile-role">Head of Marketing · Brand Matahati</div>
+            <div class="stat-row">
+              <div class="stat">
+                <div class="stat-num">20+</div>
+                <div class="stat-lbl">Klien freelance<br/>SEO &amp; WordPress</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">2th</div>
+                <div class="stat-lbl">Di Digibos<br/>Creative Studio</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="body-text">Sekarang dia ngembangin strategi marketing F&amp;B yang beneran bikin brand-nya naik kelas.</p>
+        </div>
+        <p class="arrow-cue">What did he do to get THAT far?</p>
+      </div>
+
+      <!-- SLIDE 5 — ORIGIN (NATURE) -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">05 / 09</span>
+          <h2 class="title">Tukang joki tulis <em style="font-style:normal; color:var(--accent);">berseragam abu-abu</em></h2>
+          <p class="body-text">Pas temen-temennya sibuk gambar denah rumah di kertas A3, dia sibuk ngetik.</p>
+          <p class="body-text">Joki tugas, bantu temen bikin esai, nulis apapun yang bisa dibayar. Dilakuin secara niat pake laptop seadanya.</p>
+          <p class="body-text">Di titik itu dia sebenernya lagi ngasah skill paling mahal di era digital tanpa sadar: <strong>nulis yang dibaca orang.</strong></p>
+        </div>
+        <p class="arrow-cue">But that wasn't the real turning point..</p>
+      </div>
+
+      <!-- SLIDE 6 — PIVOTAL MOMENT -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">06 / 09</span>
+          <h2 class="title">Freshgrad SMK <em style="font-style:normal; color:var(--accent);">nekat jadi Content Writer</em></h2>
+          <p class="body-text">Pas lulus SMK, dia ga ikutin jalur "normal" ke proyek bangunan. Dia justru ngelamar jadi Content Writer.</p>
+          <p class="body-text">Fresh graduate. Tanpa S1. Tanpa portfolio marketing. Modal cuma jam terbang dari joki tulis doang.</p>
+          <p class="body-text">Dan di situlah jalan ngetemuin dia sama <strong>Digibos Creative Studio.</strong></p>
+        </div>
+        <p class="arrow-cue">then things escalated</p>
+      </div>
+
+      <!-- SLIDE 7 — LEVEL UP -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">07 / 09</span>
+          <h2 class="title">Brave enough to <em style="font-style:normal; color:var(--accent);">level up</em></h2>
+          <p class="body-text">Di Digibos, dia ga cuma disuruh nulis doang. Dia dapet panggung buat belajar hal-hal yang anak SMK biasanya ga sentuh:</p>
+          <ul class="bullet-list">
+            <li>SEO langsung dari praktisi (bukan tutorial YouTube)</li>
+            <li>Digital marketing beneran, bukan teori kelas</li>
+            <li>Strategi brand dari dalem ruang meeting</li>
+          </ul>
+          <p class="body-text" style="margin-top:14px;">Skill yang kalau diambil di bootcamp luar bisa jutaan, dia dapet <strong>sambil dibayar.</strong></p>
+        </div>
+      </div>
+
+      <!-- SLIDE 8 — CLIMAX -->
+      <div class="slide">
+        <div>
+          <span class="slide-num">08 / 09</span>
+          <h2 class="quote-big" style="margin-bottom:14px;">What happened next?</h2>
+
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-year">Yr 1–2</div>
+              <div class="tl-text">Content Writer &amp; Digital Marketer di Digibos Creative Studio</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">Rehat</div>
+              <div class="tl-text">Full freelance SEO &amp; WordPress Developer · <strong style="color:var(--accent)">20+ klien</strong></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">Now</div>
+              <div class="tl-text"><strong style="color:var(--accent)">Head of Marketing Brand Matahati</strong> · develop strategy from scratch</div>
+            </div>
+          </div>
+
+          <p class="body-text" style="margin-top:4px;">Anak SMK Teknik Gambar Bangunan. Naik kelas.</p>
+          <p class="body-text"><em>Bukan karena ijazah — tapi karena tempat dia asah skill.</em></p>
+        </div>
+      </div>
+
+      <!-- SLIDE 9 — CTA -->
+      <div class="slide cta-slide">
+        <div>
+          <span class="slide-num">09 / 09</span>
+          <span class="tag">Free Webinar</span>
+          <h2 class="cta-headline">Buat kalian yang...</h2>
+          <ul class="cta-list">
+            <li>Anak SMK / freshgrad yang ngerasa <em>"emang bisa gue?"</em></li>
+            <li>Content writer yang mau naik level ke digital marketing</li>
+            <li>Freelancer yang mau skill-nya kebeli lebih mahal</li>
+            <li>Marketing enthusiast yang bosen cuma dikasih teori</li>
+          </ul>
+          <p class="body-text" style="font-size:13.5px; margin-bottom:12px;">Minggu ini Digibos bikin <strong>WEBINAR GRATIS.</strong> Bisa ketemu &amp; tanya-tanya langsung ke mentor yang udah ngelahirin success story kayak ini.</p>
+          <div class="cta-box">
+            DAFTAR SEKARANG → LINK DI BIO
+            <small>lesgowww 🚀</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav">
+    <button class="nav-btn" id="prev" aria-label="Previous">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="next" aria-label="Next">›</button>
+  </div>
+
+  <!-- CTA Panel -->
+  <div class="cta-panel">
+    <h3>Siap naik kelas kayak alumni Digibos?</h3>
+    <p>Gabung webinar gratis Digibos Creative Studio. Belajar SEO, content, &amp; digital marketing langsung dari praktisi yang udah cetak banyak success story.</p>
+    <div class="cta-actions">
+      <a href="https://digibos.id/webinar" class="btn btn-primary" target="_blank" rel="noopener">Daftar Webinar Gratis →</a>
+      <a href="https://wa.me/6281234567890?text=Halo%20Digibos%2C%20saya%20mau%20tanya%20tentang%20webinar" class="btn btn-secondary" target="_blank" rel="noopener">Chat Admin via WhatsApp</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const track = document.getElementById('track');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const counter = document.getElementById('current');
+  const bar = document.getElementById('progressBar');
+  const dotsWrap = document.getElementById('dots');
+  const total = 9;
+  let idx = 0;
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Go to slide ${i + 1}`);
+    d.addEventListener('click', () => go(i));
+    dotsWrap.appendChild(d);
+  }
+
+  function go(i) {
+    idx = Math.max(0, Math.min(total - 1, i));
+    track.style.transform = `translateX(-${idx * (100 / total)}%)`;
+    counter.textContent = String(idx + 1).padStart(2, '0');
+    bar.style.width = ((idx + 1) / total * 100) + '%';
+    document.querySelectorAll('.dot').forEach((d, n) => {
+      d.classList.toggle('active', n === idx);
+    });
+    prev.disabled = idx === 0;
+    next.disabled = idx === total - 1;
+  }
+
+  prev.addEventListener('click', () => go(idx - 1));
+  next.addEventListener('click', () => go(idx + 1));
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') go(idx + 1);
+    if (e.key === 'ArrowLeft') go(idx - 1);
+  });
+
+  // Touch swipe
+  let startX = 0, deltaX = 0, swiping = false;
+  const carousel = document.getElementById('carousel');
+  carousel.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    swiping = true;
+  }, { passive: true });
+  carousel.addEventListener('touchmove', (e) => {
+    if (!swiping) return;
+    deltaX = e.touches[0].clientX - startX;
+  }, { passive: true });
+  carousel.addEventListener('touchend', () => {
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX < 0) go(idx + 1);
+      else go(idx - 1);
+    }
+    swiping = false; deltaX = 0;
+  });
+
+  // Init
+  go(0);
+</script>
+
+</body>
+</html>
